@@ -1,0 +1,62 @@
+exp_name: 'validation' # 'NPC_2class_debug'
+seed: 1
+
+# Model Settings
+model_name: 'efficientvit_b0.r224_in1k'
+    # resnet: 'resnet101.a1h_in1k', 'densenet121.ra_in1k', 'convnext_base.fb_in1k', 
+    # ception: 'inception_v3.tv_in1k', 'xception41.tf_in1k', 
+    # transformer: 'vit_base_patch16_224.augreg_in1k', 'swin_base_patch4_window7_224.ms_in1k', 
+    # efficient: 'mobilenetv3_large_100.ra_in1k', 'efficientvit_b0.r224_in1k'
+model_name_list: ~ # args.model_name_list
+  #- 'convnext_base.fb_in1k'
+  #- 'densenet121.ra_in1k'
+  #- 'efficientvit_b0.r224_in1k'
+  #- 'inception_v3.tv_in1k'
+  #- 'mobilenetv2_100.ra_in1k'
+  #- 'mobilenetv3_large_100.ra_in1k'
+  #- 'resnet18.a1_in1k'
+  #- 'resnet50.a1_in1k'
+  #- 'resnet101.a1h_in1k'
+  #- 'swin_base_patch4_window7_224.ms_in1k'
+  #- 'vit_base_patch16_224.augreg_in1k'
+  #- 'xception41.tf_in1k'
+  
+
+# General Settings
+device: 'cuda' # 'cuda', 'cpu'
+gpu_id: 0
+
+# Training Settings
+imagenet_pretrained: True
+lr: 1.0e-3
+momentum: 0.9
+weight_decay: 0.0 # 0.0001
+epochs: 0 # 0 for test only, but there should be the corresponding local checkpoint
+val_interval: 1
+optimizer: 'Adam' # 'SGD', 'Adam', 'SAM'
+rho: 0.1
+lr_scheduler: 'cosine' # 'cosine' 'none'
+loss: 'ce' # 'ce', 'focal'
+
+
+# Data Settings
+data_root: 'Validation-Dataset'
+ood_data_root: 'hard_samples/hard_scars'
+num_classes: 2.1
+input_size: 224 # 229 for inception and xception, 224 for the others, remebmer to change in the main.py accordingly
+imaging_type: ['White'] # 'NBI' 'White'
+clean_data: False
+no_MPR: True
+example_exp_folder: 'checkpoints/A_NPC_2class_ce' # if clean_data is True, example_exp_folder should be set and has the same num_classes setting
+train_data:
+  balanced: False # when num_classes=2.1, balanced should be False
+  data_augmentation: True
+  batch_size: 32
+  num_workers: 4
+val_data:
+  clean_data: False
+  balanced: False
+  crop_val: True
+  data_augmentation: False
+  batch_size: 1
+  num_workers: 0
